@@ -1,19 +1,20 @@
-on:
-  push:
-    workflow_dispatch:
-      inputs:
-      next_version:
-        description: 'Release Type'
-        required: true
-        default: 'minor'
-      tags:
-        description: 'Test scenario tags'
-        # ${{ github.event.inputs.next_version }}
-    # Sequence of patterns matched against refs/tags
-    # tags:
-    #   - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+# This workflow is to automate the release notes for a given production artifact
 
 name: Create Release
+
+on:
+  workflow_dispatch:
+    inputs:
+    next_version:
+      description: 'Release Type'
+      required: true
+      default: 'minor'
+    tags:
+      description: 'Test scenario tags'
+      # ${{ github.event.inputs.next_version }}
+  # Sequence of patterns matched against refs/tags
+  # tags:
+  #   - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 jobs:
   debug:
