@@ -6,10 +6,11 @@ name: Production - 2. Release Notes
 on:
   workflow_dispatch:
     inputs:
-      logLevel:
-        description: 'Log level'
+      release_type:
+        description: 'Using semantic versioning IE XX.XX.XX, is this next release a: major,
+        minor, or patch?'
         required: true
-        default: 'warning'
+        default: 'minor'
       tags:
         description: 'Test scenario tags'
   # Triggers the workflow on push or pull request events but only for the staging branch
@@ -46,13 +47,13 @@ jobs:
         id: create_release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+          GITHUB_TOKEN: ${{ secrets.BC_CI_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
           body: |
             # Test Release Notes Summary
-            _Release Type: ${{ github.event.inputs.next_version }}_
+            _Release Type: ${{ github.event.inputs.release_type }}_
             ## Changes
               - item 1
               - item 2

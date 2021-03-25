@@ -5,9 +5,8 @@ name: Production - 1. Auto-merge Pull Request
 # Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events but only for the staging branch
-  check_suite:
-    types:
-      - completed
+  pull_request_target:
+    types: [assigned, opened, synchronize, reopened, ready_for_review]
   workflow_dispatch:
     inputs:
       pull-request:
@@ -29,5 +28,4 @@ jobs:
           merge-method: squash
           do-not-merge-labels: never-merge
           pull-request: ${{ github.event.inputs.pull-request }}
-          # required-labels: automerge
-          # dry-run: true
+          dry-run: false
