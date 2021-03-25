@@ -1,21 +1,29 @@
 on:
   push:
+    workflow_dispatch:
+      inputs:
+      next_version:
+        description: 'Release Type'
+        required: true
+        default: 'minor'
+      tags:
+        description: 'Test scenario tags'
+        # ${{ github.event.inputs.next_version }}
     # Sequence of patterns matched against refs/tags
-    tags:
-      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+    # tags:
+    #   - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
 name: Create Release
 
 jobs:
   debug:
-
     runs-on: ubuntu-latest
 
     steps:
-    - name: Dump GitHub context
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+          run: echo "$GITHUB_CONTEXT"
 
   build:
     name: Create Release
@@ -31,9 +39,10 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-            body: |
-              # Test Release Notes Summary
-              ## Changes
+          body: |
+            # Test Release Notes Summary
+            _Release Type: ${{ github.event.inputs.next_version }}_
+            ## Changes
               - item 1
               - item 2
               - item 3
