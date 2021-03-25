@@ -1,0 +1,68 @@
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+name: Create Release
+
+jobs:
+  debug:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Dump GitHub context
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
+  build:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+            body: |
+              # {{projectName}}/v{{versionName}} was released Successfully
+
+              ${{ github }}
+              ## {{projectName}} Release Notes
+
+              **Release Date: {{releaseDate}}**
+              **Release Version: {{versionName}}**
+              **Release Link: [Jira Release for v{{versionName}}](https://amuniversal.atlassian.net/projects/{projectIdOrKey}/versions/{id})**
+
+              We are glad to inform you that the latest version {{versionName}} of
+              {{projectName}} has been deployed.  These release notes were generated through
+              this product's CI automation. Below is the list of JIRA issues that were part of this
+              upgrade.
+
+              ### Summary
+
+              {{versionDesc}}
+
+              ### Issues Completed in this Release
+
+              ### More Information
+
+              _To report a new issue go to the [AMU Digital Products Service
+              Desk](https://amuniversal.atlassian.net/servicedesk/customer/portal/9) for
+              feedback on this email/process go
+              [here](https://amuniversal.atlassian.net/secure/Dashboard.jspa?selectPageId=11506)._
+
+              Thanks,
+              _AMU Digital Products Engineering Team_
+
+            draft: true
+            prerelease: false
+            # repo: Current repository
+            # owner: Current owner
