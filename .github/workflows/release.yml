@@ -4,23 +4,24 @@ name: Production - 2. Release Notes
 
 # Controls when the action will run.
 on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+      tags:
+        description: 'Test scenario tags'
   # Triggers the workflow on push or pull request events but only for the staging branch
   #   push:
   #     branches: [ staging ]
   #   pull_request:
   #     branches: [ staging ]
-
   # Allows you to run this workflow manually from the Actions tab
   # ${{ github.event.inputs.next_version }}
   # Sequence of patterns matched against refs/tags
   # tags:
   #   - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
-  workflow_dispatch:
-    inputs:
-    next_version:
-      description: 'Release Type'
-      required: true
-      default: 'minor'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
