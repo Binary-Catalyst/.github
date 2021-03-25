@@ -1,0 +1,16 @@
+# Lines starting with '#' are comments.
+# Order is important. The last matching pattern has the most precedence.
+# You can also use email addresses if you prefer.
+# Each line is a file pattern followed by one or more owners.
+
+# These owners will be the default owners for everything in the repo.
+* @abarrows @forrestkc 
+
+# Front-end Engineering
+*.js *.css *.scss *.erb @abarrows @dcumpton ctrble@gmail.com @NathanTrost @pmccarthyAMU
+
+# Back-end Engineering
+!*.js !*.css !*.scss @vkieffer-amu @amumark
+
+# DevOps
+./* config/** @forrestkc @tburger010 @kubecode30
