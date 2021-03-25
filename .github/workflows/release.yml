@@ -1,37 +1,46 @@
 # This workflow is to automate the release notes for a given production artifact
 
-name: Create Release
+name: Production - 2. Release Notes
 
+# Controls when the action will run.
 on:
+  # Triggers the workflow on push or pull request events but only for the staging branch
+  #   push:
+  #     branches: [ staging ]
+  #   pull_request:
+  #     branches: [ staging ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  # ${{ github.event.inputs.next_version }}
+  # Sequence of patterns matched against refs/tags
+  # tags:
+  #   - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
   workflow_dispatch:
     inputs:
     next_version:
       description: 'Release Type'
       required: true
       default: 'minor'
-    tags:
-      description: 'Test scenario tags'
-      # ${{ github.event.inputs.next_version }}
-  # Sequence of patterns matched against refs/tags
-  # tags:
-  #   - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  debug:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can
+      # access it
+      - name: Checkout code
+        - uses: actions/checkout@v2
+
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
           run: echo "$GITHUB_CONTEXT"
 
-  build:
-    name: Create Release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
