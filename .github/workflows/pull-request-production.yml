@@ -24,7 +24,7 @@ jobs:
     steps:
       - uses: reitermarkus/automerge@v1
         with:
-          token: ${{ secrets.BC_CI_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           merge-method: squash
           do-not-merge-labels: never-merge
           pull-request: ${{ github.event.inputs.pull-request }}
