@@ -3,9 +3,6 @@ on:
   push:
     branches:
       - production # your production branch
-  pull_request:
-    # Used by the auto-labeler
-    types: [opened, reopened, synchronize]
 jobs:
   update_release_draft:
     runs-on: ubuntu-latest
