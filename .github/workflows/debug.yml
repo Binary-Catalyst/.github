@@ -1,0 +1,44 @@
+# # This workflow is to automate the release notes for a given production artifact
+
+# name: Debug - Dump Context
+
+# # Controls when the action will run.
+# on:
+#   workflow_dispatch:
+#     inputs:
+#       release_type:
+#         description: 'Using semantic versioning IE XX.XX.XX, is this next release a: major,
+#         minor, or patch?'
+#         required: true
+#         default: 'minor'
+#       tags:
+#         description: 'Test scenario tags'
+#   # Triggers the workflow on push or pull request events but only for the staging branch
+#   #   push:
+#   #     branches: [ staging ]
+#   #   pull_request:
+#   #     branches: [ staging ]
+#   # Allows you to run this workflow manually from the Actions tab
+#   # ${{ github.event.inputs.next_version }}
+#   # Sequence of patterns matched against refs/tags
+#   # tags:
+#   #   - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+# # A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# jobs:
+#   # This workflow contains a single job called "build"
+#   build:
+#     # The type of runner that the job will run on
+#     runs-on: ubuntu-latest
+
+#     # Steps represent a sequence of tasks that will be executed as part of the job
+#     steps:
+#       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can
+#       # access it
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+
+#       # - name: Dump GitHub context
+#       #   env:
+#       #     GITHUB_CONTEXT: ${{ toJson(github) }}
+#       #     run: echo "$GITHUB_CONTEXT"
