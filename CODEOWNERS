@@ -4,10 +4,16 @@
 # Each line is a file pattern followed by one or more owners.
 
 # These owners will be the default owners for everything in the repo.
-* @abarrows @forrestkc
+* @abarrows @forrestkc @pmccarthyAMU
 
 # Front-end Engineering
-
+*.erb @abarrows @vkieffer-amu @amumark @kubecode30
+*.js @abarrows @dcumpton @ctrible @NathanTrost @pmccarthyAMU
+*.jsx @abarrows @dcumpton @ctrible @NathanTrost @pmccarthyAMU
+*.css @abarrows @dcumpton @ctrible @NathanTrost @pmccarthyAMU
+*.scss @abarrows @dcumpton @ctrible @NathanTrost @pmccarthyAMU
+*.sass @abarrows @dcumpton @ctrible @NathanTrost @pmccarthyAMU
+*json @abarrows @dcumpton @ctrible @NathanTrost @pmccarthyAMU
 
 # Back-end Engineering
 # !*.js !*.css !*.scss @vkieffer-amu @amumark
