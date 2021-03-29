@@ -2,14 +2,15 @@ name: Feature Branch - 1. Create Pull Request
 on:
   push:
     branches:
-      - '**'
+      - '**' # Support wildcard matching
 
 jobs:
   pull-request:
     runs-on: ubuntu-latest
     steps:
-      - name: Create Pull Request
-        uses: repo-sync/pull-request@v2.6
+      - uses: actions/checkout@v2
+      - name: pull-request
+        uses: repo-sync/pull-request@v2
         with:
           destination_branch: 'staging'
           pr_title: '${{ github.ref }}'
