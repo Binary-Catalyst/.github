@@ -1,0 +1,27 @@
+name: Feature Branch - 1. Create Pull Request
+on: push
+jobs:
+  createPullRequest:
+    if: startsWith(github.ref, 'refs/heads/') && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Pull Request
+        uses: repo-sync/pull-request@v2.6
+        with:
+          destination_branch: 'staging'
+          pr_title: '${{ github.ref }}'
+          pr_allow_empty: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pr_body: |
+
+          # Summary
+
+          _jira.title_
+          _jira.description_
+          _jira.labels_
+          _jira.affectsVersion_
+          _jira.fixVersion_
+
+          # Relevant Links
+
+          _jira.projectKey_ - _jira.issueKey_
