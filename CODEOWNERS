@@ -7,7 +7,7 @@
 * @abarrows @forrestkc
 
 # Front-end Engineering
-*.js *.jsx *.sass *.css *.scss *.erb *json @abarrows @dcumpton @ctrible @NathanTrost @pmccarthyAMU
+
 
 # Back-end Engineering
 # !*.js !*.css !*.scss @vkieffer-amu @amumark
