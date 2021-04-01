@@ -4,7 +4,11 @@
 # Each line is a file pattern followed by one or more owners.
 
 # These owners will be the default owners for everything in the repo.
-* @abarrows @pmccarthyAMU
+* @abarrows
+
+# Back-end Engineering
+*.rb @vkieffer-amu @amumark @abarrows @ctrible @kubecode30 @forrestkc
+*.yml @vkieffer-amu @amumark @abarrows @kubecode30 @forrestkc
 
 # Front-end Engineering
 *.erb @abarrows @vkieffer-amu @amumark @kubecode30
@@ -15,8 +19,7 @@
 *.sass @abarrows @dcumpton @ctrible @NathanTrost @pmccarthyAMU
 *json @abarrows @dcumpton @ctrible @NathanTrost @pmccarthyAMU
 
-# Back-end Engineering
-# !*.js !*.css !*.scss @vkieffer-amu @amumark
+
 
 # DevOps
 # ./* config/** @forrestkc @tburger010 @kubecode30
