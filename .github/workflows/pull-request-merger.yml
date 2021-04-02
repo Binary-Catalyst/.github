@@ -1,0 +1,40 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Pull Requests - 2. Auto-merge Pull Request
+
+# Controls when the action will run.
+on:
+  # Triggers the workflow on push or pull request events but only for the staging branch
+  pull_request_target:
+    types: [assigned, opened, synchronize, reopened, ready_for_review]
+
+  # Allows you to run this workflow manually from the Actions tab
+  # workflow_dispatch:
+  # inputs:
+  #   pull-request:
+  #     description: Pull Request Number
+  #     required: false
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  auto_merge:
+    if: github.event.review.state == 'approved' || !github.event.review
+    runs-on: ubuntu-latest
+    continue-on-error: false
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Extract Branch Name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
+      - uses: reitermarkus/automerge@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          merge-method: merge
+          do-not-merge-labels: never-merge
+          pull-request: ${{ github.event.inputs.pull-request }}
+          dry-run: false
