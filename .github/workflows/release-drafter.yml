@@ -5,7 +5,7 @@ on:
       - production
 jobs:
   create_release:
-    if: github.event.review.state == 'approved' || !github.event.review
+
     runs-on: ubuntu-latest
     continue-on-error: false
     timeout-minutes: 20
