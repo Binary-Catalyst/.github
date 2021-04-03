@@ -4,11 +4,15 @@ on:
     branches:
       - production
 jobs:
-  update_release_draft:
-    name: Publish release with notes
+  create_release:
+
     runs-on: ubuntu-latest
-    # if: "contains(github.event.head_commit.message, 'Prebid Server prepare release ')"
+    continue-on-error: false
+    timeout-minutes: 20
     steps:
+      - name: Checkout
+        uses: actions/checkout@master
+
       - name: Create and publish release
       - uses: release-drafter/release-drafter@master
         with:
