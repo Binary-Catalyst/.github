@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@master
 
       - name: Create and publish release
-      - uses: release-drafter/release-drafter@master
+        uses: release-drafter/release-drafter@master
         with:
           config-name: .github/release-drafter-config.yml
           publish: true
