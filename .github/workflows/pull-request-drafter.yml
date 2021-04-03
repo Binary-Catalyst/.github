@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - '**' # Support wildcard matching
+      - '!production'
 
 jobs:
   build:
