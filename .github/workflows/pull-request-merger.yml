@@ -19,6 +19,7 @@ on:
 jobs:
   auto_merge:
     if: github.event.review.state == 'approved' || !github.event.review
+    needs: [build, pull-request-labeler]
     runs-on: ubuntu-latest
     continue-on-error: false
     timeout-minutes: 20
@@ -31,7 +32,8 @@ jobs:
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
         id: extract_branch
 
-      - uses: reitermarkus/automerge@v1
+      - name: Automatic Merge Branch 
+        uses: reitermarkus/automerge@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           merge-method: merge

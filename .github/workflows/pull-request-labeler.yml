@@ -5,6 +5,7 @@ on:
 jobs:
   pull-request-labeler:
     runs-on: ubuntu-latest
+    needs: build
     steps:
       - uses: TimonVS/pr-labeler-action@v3
         with:
