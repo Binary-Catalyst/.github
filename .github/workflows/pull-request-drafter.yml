@@ -5,15 +5,20 @@ on:
       - '**' # Support wildcard matching
 
 jobs:
-  pull-request:
+  build:
     runs-on: ubuntu-latest
+    continue-on-error: false
+    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v2
-      - name: Extract branch name
+      - name: Checkout
+        uses: actions/checkout@master
+
+      - name: Extract Branch Name
         shell: bash
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
         id: extract_branch
-      - name: pull-request
+
+      - name: 1. Development - Pull Request Drafter
         uses: repo-sync/pull-request@v2
         with:
           destination_branch: 'staging'
