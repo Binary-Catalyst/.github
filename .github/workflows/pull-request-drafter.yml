@@ -2,7 +2,6 @@ name: Feature Branch - 1. Create Pull Request
 on:
   push:
     branches:
-      - '**' # Support wildcard matching
       - '!production'
 
 jobs:
@@ -27,10 +26,10 @@ jobs:
           pr_allow_empty: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
           pr_template: '.github/PULL_REQUEST_TEMPLATE/PULL_REQUEST_TEMPLATE.md'
-       
-       - name: 2. Development - Pull Request Labeler 
-         uses: TimonVS/pr-labeler-action@v3
-         with:
-           configuration-path: .github/pull-request-labeler.yml # optional, .github/pr-labeler.yml is the default value
-         env:
-           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: 2. Development - Pull Request Labeler
+        uses: TimonVS/pr-labeler-action@v3
+        with:
+          configuration-path: .github/pull-request-labeler.yml # optional, .github/pr-labeler.yml is the default value
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
