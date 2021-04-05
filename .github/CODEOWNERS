@@ -17,7 +17,7 @@
 *.css @abarrows @dcumpton @ctrible @NathanTrost @pmccarthyAMU
 *.scss @abarrows @dcumpton @ctrible @NathanTrost @pmccarthyAMU
 *.sass @abarrows @dcumpton @ctrible @NathanTrost @pmccarthyAMU
-*json @abarrows @dcumpton @ctrible @NathanTrost @pmccarthyAMU
+*.json @abarrows @dcumpton @ctrible @NathanTrost @pmccarthyAMU
 
 
 
