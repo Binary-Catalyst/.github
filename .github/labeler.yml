@@ -1,0 +1,21 @@
+labels:
+  - label: 'story'
+    branch:
+      [
+        'story/*',
+        'user-story/*',
+        'improvement/*',
+        'enhancement/*',
+        'feature/*',
+        'feat/*',
+      ]
+  - label: 'bug'
+    branch: ['bug', 'fix/*', 'bugfix/*']
+  - label: 'maintenance'
+    branch: ['maintenance/*', 'refactor/*', 'chore/*']
+  - label:
+    branch: ['research/*']
+  - label: 'build'
+    branch: ['build/*', 'release/*']
+  - label: 'hotfix'
+    branch: ['hotfix/*']
