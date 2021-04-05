@@ -1,20 +1,13 @@
 name: Development - Pull Requests Labeler
+
 on:
-  pull_request:
-    types: [opened]
+  - pull_request
 
 jobs:
-  pull_request_labeler:
+  build:
     runs-on: ubuntu-latest
-    continue-on-error: false
-    timeout-minutes: 20
-    steps:
-      - name: Checkout
-        uses: actions/checkout@master
 
-      - name: 2. Development - Pull Request Labeler
-        uses: TimonVS/pr-labeler-action@v3
-        with:
-          configuration-path: .github/pull-request-labeler.yml
+    steps:
+      - uses: srvaroa/labeler@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
