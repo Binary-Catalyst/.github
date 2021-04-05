@@ -2,6 +2,7 @@ name: Development - Pull Requests
 on:
   push:
     branches:
+      - '**'
       - '!production'
 
 jobs:
