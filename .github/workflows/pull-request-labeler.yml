@@ -1,7 +1,6 @@
 name: Development Label Pull Request
 on:
-  pull_request:
-    types: [opened]
+  - pull_request
 
 jobs:
   pull_request_labeler:
@@ -9,7 +8,7 @@ jobs:
 
     steps:
       - name: Step 1 PR Labeler
-        uses: TimonVS/pr-labeler-action@master
+        uses: TimonVS/pr-labeler-action@v3.1.0
         with:
           configuration-path: .github/pr-labeler.yml
         env:
