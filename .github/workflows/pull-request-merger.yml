@@ -1,10 +1,5 @@
 name: Staging - Pull Requests
 on:
-  workflow_run:
-    workflows:
-      - Development - Pull Requests Labeler
-    types:
-      - completed
   check_suite:
     types:
       - completed

@@ -1,0 +1,14 @@
+story:
+  [
+    'story/*',
+    'user-story/*',
+    'improvement/*',
+    'enhancement/*',
+    'feature/*',
+    'feat/*',
+  ]
+bug: ['bug', 'fix/*', 'bugfix/*']
+maintenance: ['maintenance/*', 'refactor/*', 'chore/*']
+research: ['research/*']
+build: ['build/*', 'release/*']
+hotfix: ['hotfix/*']
