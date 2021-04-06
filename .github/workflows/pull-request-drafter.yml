@@ -1,4 +1,4 @@
-name: Development - Pull Requests
+name: Development Create Pull Request
 on:
   push:
     branches:
@@ -8,18 +8,17 @@ on:
 jobs:
   pull_request_drafter:
     runs-on: ubuntu-latest
-    continue-on-error: false
-    timeout-minutes: 20
+
     steps:
-      - name: Checkout
+      - name: Step 1 Checkout
         uses: actions/checkout@master
 
-      - name: Extract Branch Name
+      - name: Step 2 Extract Branch Name
         shell: bash
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
         id: extract_branch
 
-      - name: 1. Development - Pull Request Drafter
+      - name: Step 3 Pull Request Drafter
         uses: repo-sync/pull-request@v2
         with:
           destination_branch: 'staging'
@@ -27,5 +26,3 @@ jobs:
           pr_allow_empty: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
           pr_template: '.github/PULL_REQUEST_TEMPLATE/PULL_REQUEST_TEMPLATE.md'
-      - name: PR Labeler
-        uses: TimonVS/pr-labeler-action@v3.1.0
