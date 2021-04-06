@@ -11,7 +11,7 @@ Organizational example template settings for CI
 
      - effort-jiraComplexity
      - priority-jiraPriority
-     - type-jiraIssueType
+     - type-jiraIssueType IE: story, maintenance, bug, research, hotfix
 
 3. Auto-link for JIRA
 
