@@ -1,13 +1,16 @@
-name: Feature Branch - 2. Label Pull Request
+name: Development Label Pull Request
 on:
   pull_request:
     types: [opened]
+
 jobs:
-  pull-request-labeler:
+  pull_request_labeler:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: TimonVS/pr-labeler-action@v3
+      - name: Step 1 PR Labeler
+        uses: TimonVS/pr-labeler-action@master
         with:
-          configuration-path: .github/pull-request-labeler.yml # optional, .github/pr-labeler.yml is the default value
+          configuration-path: .github/pr-labeler.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
