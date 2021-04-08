@@ -21,6 +21,4 @@ jobs:
 
       - name: Step 3 Format Repo Name to Match WP Engine Pattern
         shell: bash
-        run: |
-          "Doug, this should give you that illusive remote name! "
-          "echo ${{ steps.extract_repo.outputs.repo }} cut -c 1-14"
+        run: "echo ${{ steps.extract_repo.outputs.repo }} cut -c 1-14"
