@@ -1,0 +1,13 @@
+{
+  "name": "@binary-catalyst/.github",
+  "version": "0.5.0",
+  "description": "Run `npm link` for local development.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Binary-Catalyst/.github"
+  },
+  "author": "Andrews McMeel Universal",
+  "license": "ISC",
+  "homepage": "https://github.com/Binary-Catalyst/.github#readme"
+}

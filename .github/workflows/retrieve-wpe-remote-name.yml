@@ -1,0 +1,24 @@
+name: WP Engine API Request for Remote Name
+on:
+  workflow_dispatch:
+    inputs:
+      pull-request:
+        description: Execute API Request!
+        required: false
+
+jobs:
+  retrieve_repo_name:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Step 1 Checkout
+        uses: actions/checkout@master
+
+      - name: Step 2 Extract Repo Name
+        shell: bash
+        run: echo "##[set-output name=repo;]$(echo ${GITHUB_REPOSITORY#*/} | sed 's/[-_ ]//g' | tr -s A-Z a-z)"
+        id: extract_repo
+
+      - name: Step 3 Format Repo Name to Match WP Engine Pattern
+        shell: bash
+        run: "echo ${{ steps.extract_repo.outputs.repo }} cut -c 1-14"
