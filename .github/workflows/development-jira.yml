@@ -1,7 +1,5 @@
 name: Jira Sync Issue
 on:
-  pull_request:
-    types: [assigned, opened, synchronize, reopened]
   pull_request_review:
     types: [submitted, edited, dismissed]
   workflow_dispatch:
