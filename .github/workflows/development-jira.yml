@@ -1,24 +1,42 @@
-on: push
+on:
+  pull_request:
+    types: [assigned, opened, synchronize, reopened]
+  workflow_dispatch:
+    inputs:
+      pull-request:
+        description: Sync JIRA Status with PR
+        required: false
 
-name: Connect Jira
+name: Jira Sync Issue
 
 jobs:
-  build:
+  jira_sync_status:
+    name: Sync Pull Request State with Jira
     runs-on: ubuntu-latest
-    name: Authenticate with Jira
     steps:
-    - name: Login
-      uses: atlassian/gajira-login@master
-      env:
-        JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
-        JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
-        JIRA_API_TOKEN: ${{ secrets.JIRA_TOKEN }}
+      - name: Jira Login
+        uses: atlassian/gajira-login@master
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_TOKEN }}
 
-    - name: Jira TODO
-      uses: atlassian/gajira-todo@master
-      with:
-        project: GA
-        issuetype: Task
-        description: Created automatically via GitHub Actions
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Find Jira Issue in Branch Name
+        id: find_issue
+        uses: atlassian/gajira-find-issue-key@master
+        with:
+          from: branch
+
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: |
+          echo The current review state is
+          echo ${{ github.event.review.state }}
+
+      - name: Transition issue
+        if: github.event.review.state == 'review_requested'
+        uses: atlassian/gajira-transition@master
+        with:
+          issue: ${{ steps.find_issue.outputs.issue }}
+          transition: 'In Progress'
