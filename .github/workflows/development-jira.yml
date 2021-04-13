@@ -1,14 +1,14 @@
+name: Jira Sync Issue
 on:
   pull_request:
     types: [assigned, opened, synchronize, reopened]
+  pull_request_review:
+    types: [submitted, edited, dismissed]
   workflow_dispatch:
     inputs:
       pull-request:
         description: Sync JIRA Status with PR
         required: false
-
-name: Jira Sync Issue
-
 jobs:
   jira_sync_status:
     name: Sync Pull Request State with Jira
@@ -33,6 +33,13 @@ jobs:
         run: |
           echo The current review state is
           echo ${{ github.event.review.state }}
+
+      - name: Transition issue
+        if: github.event.review.state != 'review_requested'
+        uses: atlassian/gajira-transition@master
+        with:
+          issue: ${{ steps.find_issue.outputs.issue }}
+          transition: 'Peer Review'
 
       - name: Transition issue
         if: github.event.review.state == 'review_requested'
