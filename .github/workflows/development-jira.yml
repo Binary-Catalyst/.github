@@ -33,7 +33,7 @@ jobs:
           echo ${{ github.event.review.state }}
 
       - name: Transition Issue Backwards - Change Requested
-        if: github.event.review.state == 'review_requested' || !github.event.review
+        if: github.event.review.state == 'review_requested'
         uses: atlassian/gajira-transition@master
         with:
           issue: ${{ steps.find_issue.outputs.issue }}
