@@ -1,4 +1,5 @@
 name: Jira Sync Issue
+
 on:
   pull_request_review:
     types: [submitted, edited, dismissed]
@@ -7,42 +8,62 @@ on:
       pull-request:
         description: Sync JIRA Status with PR
         required: false
+
 jobs:
-  jira_sync_status:
-    name: Sync Pull Request State with Jira
+  jira_sync_with_review:
     runs-on: ubuntu-latest
     steps:
+      - name: Step 1 Checkout
+        uses: actions/checkout@master
+
       - name: Jira Login
         uses: atlassian/gajira-login@master
         env:
           JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
           JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
-          JIRA_API_TOKEN: ${{ secrets.JIRA_TOKEN }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
 
-      - name: Find Jira Issue in Branch Name
-        id: find_issue
+      - name: Find issue key in PR title
+        id: issue_key_pr_title
+        continue-on-error: true
         uses: atlassian/gajira-find-issue-key@master
         with:
-          from: branch
+          string: ${{ github.event.pull_request.title }}
+          from: '' # required workaround for bug
+
+      - name: Find issue key in branch name
+        continue-on-error: true
+        id: issue_key_branch_name
+        uses: atlassian/gajira-find-issue-key@master
+        with:
+          string: ${{ github.event.pull_request.head.ref }}
+          from: '' # required workaround for bug
+
+      - name: Check if issue key was found
+        run: |
+          if [[ -z "${{ steps.issue_key_pr_title.outputs.issue }}" && -z "${{ steps.issue_key_branch_name.outputs.issue }}" ]]; then
+              echo "Jira issue key could not be found!"
+              exit 1
+          fi
+
+      - name: Transition Issue Backwards - Change Requested
+        if: github.event.review.state == 'changes_requested'
+        uses: atlassian/gajira-transition@master
+        with:
+          issue: ${{ issue_key_branch_name || issue_key_pr_title }}
+          transition: 'In Progress'
+
+      - name: Retain Issue Status - Peer Review
+        if: github.event.review.state != 'review_requested' || !github.event.review
+        uses: atlassian/gajira-transition@master
+        with:
+          issue: ${{ issue_key_branch_name || issue_key_pr_title }}
+          transition: 'Peer Review'
 
       - name: Dump GitHub context
+        if: ${{ failure() }}
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: |
           echo The current review state is
           echo ${{ github.event.review.state }}
-
-      - name: Transition Issue Backwards - Change Requested
-        if: github.event.review.state == 'review_requested'
-        uses: atlassian/gajira-transition@master
-        with:
-          issue: ${{ steps.find_issue.outputs.issue }}
-          transition: 'In Progress'
-          
-      - name: Retain Issue Status - Peer Review
-        if: github.event.review.state != 'review_requested' || !github.event.review
-        uses: atlassian/gajira-transition@master
-        with:
-          issue: ${{ steps.find_issue.outputs.issue }}
-          transition: 'Peer Review'
-
