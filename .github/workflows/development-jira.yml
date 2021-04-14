@@ -50,14 +50,14 @@ jobs:
         if: github.event.review.state == 'changes_requested'
         uses: atlassian/gajira-transition@master
         with:
-          issue: ${{ issue_key_branch_name || issue_key_pr_title }}
+          issue: ${{ steps.issue_key_pr_title.outputs.issue || steps.issue_key_branch_name.outputs.issue }}
           transition: 'In Progress'
 
       - name: Retain Issue Status - Peer Review
         if: github.event.review.state != 'review_requested' || !github.event.review
         uses: atlassian/gajira-transition@master
         with:
-          issue: ${{ issue_key_branch_name || issue_key_pr_title }}
+          issue: ${{ steps.issue_key_pr_title.outputs.issue || steps.issue_key_branch_name.outputs.issue }}
           transition: 'Peer Review'
 
       - name: Dump GitHub context
@@ -67,3 +67,12 @@ jobs:
         run: |
           echo The current review state is
           echo ${{ github.event.review.state }}
+      # - name: Determine issue type
+      #   run: |
+      #     if [[ ${{ contains(github.event.issue.labels.*.name, 'bug') }} == true ]]; then
+      #         echo "ISSUE_TYPE=Bug" >> $GITHUB_ENV
+      #     elif [[ ${{ contains(github.event.issue.labels.*.name, 'new feature') }} == true ]]; then
+      #         echo "ISSUE_TYPE=New Feature" >> $GITHUB_ENV
+      #     else
+      #         echo "ISSUE_TYPE=Improvement" >> $GITHUB_ENV
+      #     fi
