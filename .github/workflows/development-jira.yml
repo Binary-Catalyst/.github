@@ -58,7 +58,7 @@ jobs:
         uses: atlassian/gajira-transition@master
         with:
           issue: ${{ steps.issue_key_pr_title.outputs.issue || steps.issue_key_branch_name.outputs.issue }}
-          transition: 'Peer Review'
+          transition: 14
 
       - name: Dump GitHub context
         if: ${{ failure() }}
