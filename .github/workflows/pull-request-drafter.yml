@@ -1,7 +1,7 @@
 name: Development Create Pull Request
 on:
   pull_request:
-    branches:
+    branches-ignore:
       - '!**'
   push:
     branches:
