@@ -76,3 +76,7 @@ jobs:
       #     else
       #         echo "ISSUE_TYPE=Improvement" >> $GITHUB_ENV
       #     fi
+      # TODO: Need to either lock down JIRA to never allow branches on statuses
+      # Not backlogged or make this more graceful to where it will catch
+      # It up to the status no matter what.
+      # TODO: Add comment to ticket explaining
