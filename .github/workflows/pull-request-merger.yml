@@ -1,38 +1,20 @@
 name: Automerge Pull Requests
 
 on:
-  # Try merging all open pull requests. (Only recommended for testing.)
-  # push:
-
-  # Try merging all open pull requests.
-  schedule:
-    - cron: 0 * * * *
-
-  # Try merging pull requests belonging to a workflow run.
   workflow_run:
     workflows:
-      - CI
+      ['Development Create Pull Request', 'Staging Create Pull Request']
+    branches: ['staging', 'production']
     types:
       - completed
-
   # Try merging pull requests belonging to a check suite.
   check_suite:
     types:
       - completed
-
   # Try merging a pull request when it is approved.
   pull_request_review:
     types:
       - submitted
-
-  # Try merging a pull request when a draft is marked as “ready for review”, when
-  # a required label is applied or when a “do not merge” label is removed.
-  pull_request_target:
-    types:
-      - labeled
-      - unlabeled
-      - ready_for_review
-
   # Try merging the specified pull request or all open pull requests if none is specified.
   workflow_dispatch:
     inputs:
