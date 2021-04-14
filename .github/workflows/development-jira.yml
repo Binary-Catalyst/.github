@@ -32,16 +32,17 @@ jobs:
           echo The current review state is
           echo ${{ github.event.review.state }}
 
-      - name: Transition issue
+      - name: Transition Issue Backwards - Change Requested
+        if: github.event.review.state == 'review_requested' || !github.event.review
+        uses: atlassian/gajira-transition@master
+        with:
+          issue: ${{ steps.find_issue.outputs.issue }}
+          transition: 'In Progress'
+          
+      - name: Retain Issue Status - Peer Review
         if: github.event.review.state != 'review_requested' || !github.event.review
         uses: atlassian/gajira-transition@master
         with:
           issue: ${{ steps.find_issue.outputs.issue }}
           transition: 'Peer Review'
 
-      - name: Transition issue
-        if: github.event.review.state == 'review_requested'
-        uses: atlassian/gajira-transition@master
-        with:
-          issue: ${{ steps.find_issue.outputs.issue }}
-          transition: 'In Progress'
