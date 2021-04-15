@@ -1,8 +1,5 @@
 name: Staging Create Pull Request
 on:
-  pull_request:
-    branches-ignore:
-      - '!**'
   push:
     branches:
       - 'staging'
