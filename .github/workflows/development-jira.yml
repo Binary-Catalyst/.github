@@ -51,7 +51,7 @@ jobs:
         uses: atlassian/gajira-transition@master
         with:
           issue: ${{ steps.issue_key_pr_title.outputs.issue || steps.issue_key_branch_name.outputs.issue }}
-          transition: '164'
+          transition: 'Peer Review Failed'
 
       - name: Retain Issue Status - Peer Review
         if: github.event.review.state != 'review_requested' || !github.event.review
