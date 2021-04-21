@@ -17,7 +17,8 @@ Organizational example template settings for CI
 
 ## Actions
 
-1. Release drafter or [Create Release](https://github.com/actions/create-release)
+1. Release drafter or [Create
+   Release](https://github.com/actions/create-release) (DONE)
 2. Auto Labeler
 3. Pull request templates
 4. [super-linter](https://github.com/marketplace/actions/super-linter)
