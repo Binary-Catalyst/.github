@@ -1,8 +1,9 @@
-name: Jira Sync Issue
+name: Development Jira Sync Issue Status
 
 on:
-  pull_request_review:
-    types: [submitted, edited, dismissed]
+  pull_request:
+    branches-ignore:
+      - production
   workflow_dispatch:
     inputs:
       pull-request:
@@ -12,6 +13,8 @@ on:
 jobs:
   jira_sync_with_review:
     runs-on: ubuntu-latest
+    env:
+      jira_issue_status: 'test'
     steps:
       - name: Step 1 Checkout
         uses: actions/checkout@master
@@ -46,19 +49,19 @@ jobs:
               exit 1
           fi
 
-      # - name: Retain Issue Status - Peer Review
-      #   if: github.event.review.state != 'review_requested' || !github.event.review
-      #   uses: atlassian/gajira-transition@master
-      #   with:
-      #     issue: ${{ steps.issue_key_pr_title.outputs.issue || steps.issue_key_branch_name.outputs.issue }}
-      #     transition: "In Peer Review"
+      - name: Update Stale Issue Status - New
+        if: github.event.review.state != 'review_requested' || !github.event.review
+        uses: atlassian/gajira-transition@master
+        with:
+          issue: ${{ steps.issue_key_pr_title.outputs.issue || steps.issue_key_branch_name.outputs.issue }}
+          transition: 'In Peer Review'
 
       - name: Transition Issue Backwards - Change Requested
         if: github.event.review.state == 'changes_requested'
         uses: atlassian/gajira-transition@master
         with:
           issue: ${{ steps.issue_key_pr_title.outputs.issue || steps.issue_key_branch_name.outputs.issue }}
-          transition: 'Peer Review Failed'
+          transition: 'In Progress'
 
       - name: Dump GitHub context
         if: ${{ failure() }}
