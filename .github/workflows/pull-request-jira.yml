@@ -1,0 +1,26 @@
+name: Pull Request Jira Lint
+on:
+  pull_request:
+    types: [opened, edited]
+    branches-ignore:
+      - production
+jobs:
+  jira-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: cleartax/jira-lint@master
+        name: jira-lint
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          jira-token: ${{ secrets.JIRA_TOKEN_ENCODED }}
+          jira-base-url: ${{ secrets.JIRA_BASE_URL }}
+          skip-branches: '^(production|master)$' #optional
+          skip-comments: true
+          pr-threshold: 1200
+          validate_issue_status: true
+          allowed_issue_statuses: 'In Progress,In Peer Review,Block'
+          # { id: 154, name: Backlog } transitions issue to 'To Do' status.
+          # { id: 14, name: In Peer Review } transitions issue to 'Peer Review'
+          # status.
+          # { id: 184, name: Block } transitions issue to 'Blocked' status.
+          # { id: 94, name: Resolve } transitions issue to 'Resolved' status.
