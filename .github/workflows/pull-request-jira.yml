@@ -1,4 +1,4 @@
-name: jira-lint
+name: Pull Request Jira Lint
 on:
   pull_request:
     types: [opened, edited]
