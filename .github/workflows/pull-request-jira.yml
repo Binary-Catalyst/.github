@@ -1,9 +1,9 @@
 name: Pull Request Jira Lint
 on:
-  pull_request:
-    types: [opened, edited]
-    branches-ignore:
-      - production
+  push:
+
+
+
 jobs:
   jira-lint:
     runs-on: ubuntu-latest
