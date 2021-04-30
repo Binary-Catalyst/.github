@@ -1,6 +1,9 @@
 name: Pull Request Jira Lint
 on:
   push:
+    branches:
+      - '**'
+      - '!production'
 
 jobs:
   jira-lint:
