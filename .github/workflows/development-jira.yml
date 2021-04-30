@@ -80,23 +80,23 @@ jobs:
               exit 1
           fi
       - name: Comment Issue - Approved
+        uses: peter-evans/create-or-update-comment@v1
         if: github.event.review.state == 'approved' ||
         github.event.check_run == 'completed'
-        uses: peter-evans/create-or-update-comment@v1
         with:
           issue-number: ${{ steps.issue_key_pr_title.outputs.issue || steps.issue_key_branch_name.outputs.issue }}
           body: "@producer - This issue has successfully been approved and is ready for merging."
 
       - name: Transition Issue Backwards - Change Requested
-        if: github.event.review.state == 'changes_requested' && github.event.review
         uses: atlassian/gajira-transition@master
+        if: github.event.review.state == 'changes_requested' && github.event.review
         with:
           issue: ${{ steps.issue_key_pr_title.outputs.issue || steps.issue_key_branch_name.outputs.issue }}
           transition: 'In Progress'
 
       - name: Transition Issue Forwards - Changes Made
-        if: github.event.review.state != 'changes_requested' || !github.event.review
         uses: atlassian/gajira-transition@master
+        if: github.event.review.state != 'changes_requested' || !github.event.review
         with:
           issue: ${{ steps.issue_key_pr_title.outputs.issue || steps.issue_key_branch_name.outputs.issue }}
           transition: 'In Peer Review'
