@@ -80,12 +80,14 @@ jobs:
               exit 1
           fi
       - name: Comment Issue - Approved
-        uses: peter-evans/create-or-update-comment@v1
+        uses: atlassian/gajira-comment@master
         if: github.event.review.state == 'approved' ||
         github.event.check_run == 'completed'
         with:
-          issue-number: ${{ steps.issue_key_pr_title.outputs.issue || steps.issue_key_branch_name.outputs.issue }}
-          body: "@producer - This issue has successfully been approved and is ready for merging."
+          issue: ${{ steps.issue_key_pr_title.outputs.issue ||
+          steps.issue_key_branch_name.outputs.issue }}
+          comment: "${{ github.event.pusher.name }} has approved the pull
+           request. This issue is ready to be merged and deployed to staging"
 
       - name: Transition Issue Backwards - Change Requested
         uses: atlassian/gajira-transition@master
