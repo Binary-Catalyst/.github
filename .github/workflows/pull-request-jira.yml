@@ -18,11 +18,10 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           jira-token: ${{ secrets.JIRA_TOKEN_ENCODED }}
           jira-base-url: ${{ secrets.JIRA_BASE_URL }}
-          skip-branches: '^(production|master)$' #optional
           skip-comments: true
           pr-threshold: 1200
-          validate_issue_status: true
-          allowed_issue_statuses: 'In Progress,In Peer Review,Block'
+          # validate_issue_status: true
+          # allowed_issue_statuses: 'In Progress,In Peer Review,Block'
           # { id: 154, name: Backlog } transitions issue to 'To Do' status.
           # { id: 14, name: In Peer Review } transitions issue to 'Peer Review'
           # status.
