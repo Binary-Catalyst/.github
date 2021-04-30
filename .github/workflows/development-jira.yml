@@ -2,8 +2,20 @@ name: Development Jira Sync Issue Status
 
 on:
   pull_request:
-    branches-ignore:
-      - production
+    types:
+      - opened
+      - closed
+      - reopened
+      - synchronize
+      - ready_for_review
+      - locked
+      - unlocked
+  pull_request_review:
+      types:
+        - submitted
+  check_suite:
+    types:
+      - completed
   workflow_dispatch:
     inputs:
       pull-request:
@@ -11,7 +23,7 @@ on:
         required: false
 
 jobs:
-  jira_sync_with_review:
+  jira_login:
     runs-on: ubuntu-latest
     env:
       jira_issue_status: 'test'
@@ -24,8 +36,27 @@ jobs:
         env:
           JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
           JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
-          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_TOKEN }}
 
+  jira_priority_sync:
+    runs-on: ubuntu-latest
+    name: Label Pull Request with Jira properties
+    needs: jira_login
+    steps:
+      - name: Jira Issue Label Priority
+        uses: xserrat/pr-jira-properties-labeler@v1.0.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JIRA_ENCODED_TOKEN: ${{ secrets.JIRA_TOKEN_ENCODED }}
+          JIRA_URI: ${{ secrets.JIRA_BASE_URL }}
+          regexp_jira_issue_code_on_pr_title: '^([A-Z]{3}-[0-9]{4}).*'
+          issue_properties: '[priority]'
+
+  jira_transition_sync:
+    runs-on: ubuntu-latest
+    name: Label Pull Request with Jira properties
+    needs: jira_login
+    steps:
       - name: Find issue key in PR title
         id: issue_key_pr_title
         continue-on-error: true
@@ -48,20 +79,27 @@ jobs:
               echo "Jira issue key could not be found!"
               exit 1
           fi
-
-      - name: Update Stale Issue Status - New
-        if: github.event.review.state != 'review_requested' || !github.event.review
-        uses: atlassian/gajira-transition@master
+      - name: Comment Issue - Approved
+        if: github.event.review.state == 'approved' ||
+        github.event.check_run == 'completed'
+        uses: peter-evans/create-or-update-comment@v1
         with:
-          issue: ${{ steps.issue_key_pr_title.outputs.issue || steps.issue_key_branch_name.outputs.issue }}
-          transition: 'In Peer Review'
+          issue-number: ${{ steps.issue_key_pr_title.outputs.issue || steps.issue_key_branch_name.outputs.issue }}
+          body: "@producer - This issue has successfully been approved and is ready for merging."
 
       - name: Transition Issue Backwards - Change Requested
-        if: github.event.review.state == 'changes_requested'
+        if: github.event.review.state == 'changes_requested' && github.event.review
         uses: atlassian/gajira-transition@master
         with:
           issue: ${{ steps.issue_key_pr_title.outputs.issue || steps.issue_key_branch_name.outputs.issue }}
           transition: 'In Progress'
+
+      - name: Transition Issue Forwards - Changes Made
+        if: github.event.review.state != 'changes_requested' || !github.event.review
+        uses: atlassian/gajira-transition@master
+        with:
+          issue: ${{ steps.issue_key_pr_title.outputs.issue || steps.issue_key_branch_name.outputs.issue }}
+          transition: 'In Peer Review'
 
       - name: Dump GitHub context
         if: ${{ failure() }}
