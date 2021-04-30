@@ -2,12 +2,13 @@ name: Pull Request Jira Lint
 on:
   push:
 
-
-
 jobs:
   jira-lint:
     runs-on: ubuntu-latest
     steps:
+      - name: Step 1 Checkout
+        uses: actions/checkout@master
+
       - uses: cleartax/jira-lint@master
         name: jira-lint
         with:
