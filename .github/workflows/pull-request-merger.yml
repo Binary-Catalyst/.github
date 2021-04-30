@@ -1,12 +1,6 @@
 name: Automerge Pull Requests
 
 on:
-  workflow_run:
-    workflows:
-      ['Development Create Pull Request', 'Staging Create Pull Request']
-    branches: ['staging', 'production']
-    types:
-      - completed
   # Try merging pull requests belonging to a check suite.
   check_suite:
     types:
@@ -24,9 +18,10 @@ on:
 
 jobs:
   automerge:
-    if: github.event.review.state == 'approved' || !github.event.review
     runs-on: ubuntu-latest
+
     steps:
+      - name: Pull Request Automerge Approved
       - uses: reitermarkus/automerge@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}

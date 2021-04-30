@@ -1,0 +1,31 @@
+name: Development Jira Sync Prioritize
+
+on:
+  pull_request:
+    branches:
+      - '**'
+      - '!production'
+
+jobs:
+  jira_labels:
+    runs-on: ubuntu-latest
+    name: Label Pull Request with Jira properties
+    steps:
+      - name: Step 1 Checkout
+        uses: actions/checkout@master
+
+      - name: Jira Login
+        uses: atlassian/gajira-login@master
+        env:
+          JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
+          JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_TOKEN }}
+
+      - name: Label with JIRA issue properties
+        uses: xserrat/pr-jira-properties-labeler@v1.0.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JIRA_ENCODED_TOKEN: ${{ secrets.JIRA_TOKEN_ENCODED }}
+          JIRA_URI: ${{ secrets.JIRA_BASE_URL }}
+          regexp_jira_issue_code_on_pr_title: '^([A-Z]{3}-[0-9]{4}).*'
+          issue_properties: '[priority]'
