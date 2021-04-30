@@ -1,8 +1,21 @@
-name: Jira Sync Issue
+name: Development Jira Sync Issue Status
 
 on:
+  pull_request:
+    types:
+      - opened
+      - closed
+      - reopened
+      - synchronize
+      - ready_for_review
+      - locked
+      - unlocked
   pull_request_review:
-    types: [submitted, edited, dismissed]
+      types:
+        - submitted
+  check_suite:
+    types:
+      - completed
   workflow_dispatch:
     inputs:
       pull-request:
@@ -10,8 +23,10 @@ on:
         required: false
 
 jobs:
-  jira_sync_with_review:
+  jira_login:
     runs-on: ubuntu-latest
+    env:
+      jira_issue_status: 'test'
     steps:
       - name: Step 1 Checkout
         uses: actions/checkout@master
@@ -21,8 +36,27 @@ jobs:
         env:
           JIRA_BASE_URL: ${{ secrets.JIRA_BASE_URL }}
           JIRA_USER_EMAIL: ${{ secrets.JIRA_USER_EMAIL }}
-          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_TOKEN }}
 
+  jira_priority_sync:
+    runs-on: ubuntu-latest
+    name: Label Pull Request with Jira properties
+    needs: jira_login
+    steps:
+      - name: Jira Issue Label Priority
+        uses: xserrat/pr-jira-properties-labeler@v1.0.0
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          JIRA_ENCODED_TOKEN: ${{ secrets.JIRA_TOKEN_ENCODED }}
+          JIRA_URI: ${{ secrets.JIRA_BASE_URL }}
+          regexp_jira_issue_code_on_pr_title: '^([A-Z]{3}-[0-9]{4}).*'
+          issue_properties: '[priority]'
+
+  jira_transition_sync:
+    runs-on: ubuntu-latest
+    name: Label Pull Request with Jira properties
+    needs: jira_login
+    steps:
       - name: Find issue key in PR title
         id: issue_key_pr_title
         continue-on-error: true
@@ -45,20 +79,29 @@ jobs:
               echo "Jira issue key could not be found!"
               exit 1
           fi
-
-      # - name: Retain Issue Status - Peer Review
-      #   if: github.event.review.state != 'review_requested' || !github.event.review
-      #   uses: atlassian/gajira-transition@master
-      #   with:
-      #     issue: ${{ steps.issue_key_pr_title.outputs.issue || steps.issue_key_branch_name.outputs.issue }}
-      #     transition: "In Peer Review"
+      - name: Comment Issue - Approved
+        uses: atlassian/gajira-comment@master
+        if: github.event.review.state == 'approved' ||
+        github.event.check_run == 'completed'
+        with:
+          issue: ${{ steps.issue_key_pr_title.outputs.issue ||
+          steps.issue_key_branch_name.outputs.issue }}
+          comment: "${{ github.event.pusher.name }} has approved the pull
+           request. This issue is ready to be merged and deployed to staging"
 
       - name: Transition Issue Backwards - Change Requested
-        if: github.event.review.state == 'changes_requested'
         uses: atlassian/gajira-transition@master
+        if: github.event.review.state == 'changes_requested' && github.event.review
         with:
           issue: ${{ steps.issue_key_pr_title.outputs.issue || steps.issue_key_branch_name.outputs.issue }}
-          transition: 'Peer Review Failed'
+          transition: 'In Progress'
+
+      - name: Transition Issue Forwards - Changes Made
+        uses: atlassian/gajira-transition@master
+        if: github.event.review.state != 'changes_requested' || !github.event.review
+        with:
+          issue: ${{ steps.issue_key_pr_title.outputs.issue || steps.issue_key_branch_name.outputs.issue }}
+          transition: 'In Peer Review'
 
       - name: Dump GitHub context
         if: ${{ failure() }}
