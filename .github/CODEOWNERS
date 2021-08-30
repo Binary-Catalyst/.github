@@ -1,25 +1,47 @@
-# Lines starting with '#' are comments.
-# Order is important. The last matching pattern has the most precedence.
-# You can also use email addresses if you prefer.
-# Each line is a file pattern followed by one or more owners.
-
-# These owners will be the default owners for everything in the repo.
-* @abarrows
-
-# Back-end Engineering
-*.rb @vkieffer-amu @amumark @abarrows @ctrible @kubecode30 @forrestkc
-*.yml @vkieffer-amu @amumark @abarrows @kubecode30 @forrestkc
+# General Software Engineering
+*                               @abarrows @NathanTrost @acroth
 
 # Front-end Engineering
-*.erb @abarrows @vkieffer-amu @amumark @kubecode30
-*.js @abarrows @dcumpton @ctrible @NathanTrost @pmccarthyAMU
-*.jsx @abarrows @dcumpton @ctrible @NathanTrost @pmccarthyAMU
-*.css @abarrows @dcumpton @ctrible @NathanTrost @pmccarthyAMU
-*.scss @abarrows @dcumpton @ctrible @NathanTrost @pmccarthyAMU
-*.sass @abarrows @dcumpton @ctrible @NathanTrost @pmccarthyAMU
-*.json @abarrows @dcumpton @ctrible @NathanTrost @pmccarthyAMU
 
+*.html.**                       @acroth
+*.erb                           @acroth
+*.jsx                           @acroth
+*.js                            @acroth
+*.css                           @acroth
+*.scss                          @acroth
+*.sass                          @acroth
+*.otf                           @acroth
+*.eot                           @acroth
+*.ttf                           @acroth
+*.woff*                         @acroth
+*.otf                           @acroth
+*.svg                           @acroth
+*.jpg                           @acroth
+*.jpeg                          @acroth
+*.gif                           @acroth
+*.png                           @acroth
+*.ico                           @acroth
+**.eslint**                     @acroth
+**.prettier**                   @acroth
+**robots.**                     @acroth
+/public/**                      @acroth
 
+# Back-end Engineering
+
+# *.rb                          @NathanTrost
+# bin/**                        @NathanTrost
+# db/**                         @NathanTrost
+# lib/**                        @NathanTrost
 
 # DevOps
-# ./* config/** @forrestkc @tburger010 @kubecode30
+/*                              @abarrows @NathanTrost @acroth
+/config/**                      @abarrows @NathanTrost @acroth
+.github/**                      @abarrows @NathanTrost @acroth
+jenkins/**                      @abarrows @NathanTrost @acroth
+/**Gemfile**                    @abarrows @NathanTrost @acroth
+/**.env**                       @abarrows @NathanTrost @acroth
+/**.nvmrc**                     @abarrows @NathanTrost @acroth
+
+# Advertising
+
+/config/ads.txt                 @acroth
