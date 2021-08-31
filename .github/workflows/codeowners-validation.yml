@@ -1,0 +1,21 @@
+name: Codeowners Validation
+
+on:
+  push:
+    branches:
+    - '**'
+
+jobs:
+  codeowners_validation:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    - name: GitHub CODEOWNERS Validator
+      uses: mszostok/codeowners-validator@v0.6.0
+      # with:
+      # experimental_checks: # optional, default is 
+      # checks: # optional, default is 
+      # The comma-separated list of patterns that should be ignored by not-owned-checker. For example, you can specify * and as a result, the * pattern from the CODEOWNERS file will be ignored and files owned by this pattern will be reported as unowned unless a later specific pattern will match that path. It's useful because often we have default owners entry at the begging of the CODOEWNERS file, e.g. * @global-owner1 @global-owner2
+      # not_owned_checker_skip_patterns: # optional
