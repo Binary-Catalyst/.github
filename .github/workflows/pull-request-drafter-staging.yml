@@ -19,7 +19,7 @@ jobs:
         uses: repo-sync/pull-request@v2
         with:
           destination_branch: 'production'
-          pr_title: '0.0.0'
+          pr_title: "Test"
           pr_allow_empty: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
           pr_template: '.github/PULL_REQUEST_TEMPLATE/PULL_REQUEST_TEMPLATE_PRODUCTION.md'
