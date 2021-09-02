@@ -27,10 +27,10 @@
 
 # Back-end Engineering
 
-# *.rb                          @NathanTrost
-# bin/**                        @NathanTrost
-# db/**                         @NathanTrost
-# lib/**                        @NathanTrost
+*.rb                            @NathanTrost
+bin/**                          @NathanTrost
+db/**                           @NathanTrost
+lib/**                          @NathanTrost
 
 # DevOps
 /*                              @abarrows @NathanTrost @acroth
