@@ -9,8 +9,6 @@ on:
     - '**'
     tags-ignore:
     - '**'
-  schedule:
-  - cron: '37 4 * * *'
   workflow_dispatch: { }
 
 jobs:
@@ -43,3 +41,4 @@ jobs:
       uses: mszostok/codeowners-validator@v0.6.0
       with:
         github_access_token: '${{ github.token }}'
+        checks: "owners,duppatterns,syntax" # Removing files since this is a template for all organization repos.
