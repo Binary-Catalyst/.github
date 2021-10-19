@@ -12,3 +12,4 @@ maintenance: ['maintenance/*', 'refactor/*', 'chore/*']
 research: ['research/*']
 build: ['build/*', 'release/*']
 hotfix: ['hotfix/*']
+
