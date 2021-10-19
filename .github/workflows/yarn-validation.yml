@@ -1,9 +1,10 @@
 name: Yarn Validation
 
 on:
-  pull_request_target:
+  pull_request:
     branches:
       - '**'
+
 jobs:
   file_existence:
     runs-on: ubuntu-latest
