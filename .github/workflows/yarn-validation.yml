@@ -1,7 +1,9 @@
 name: Yarn Validation
 
 on:
-  - pull_request
+  pull_request:
+    branches:
+      - '**'
 
 jobs:
   file_existence:
