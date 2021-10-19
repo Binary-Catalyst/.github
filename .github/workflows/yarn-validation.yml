@@ -1,9 +1,10 @@
 name: Yarn Validation
 
 on:
-  - pull_request
-workflow_dispatch: { }
-
+  pull_request_target:
+    branches:
+      - '**'
+      - '!production'
 jobs:
   file_existence:
     runs-on: ubuntu-latest
