@@ -7,13 +7,15 @@ Organizational example template settings for CI
 ## TODOs
 
 1. CODEOWNER file
-2. Identify our Default labels (Should be prefixed by category and used sparingly to get attention.) Examples:
+2. Code coverage badges
+3. JIRA connectivity via webhook
+4. Identify our Default labels (Should be prefixed by category and used sparingly to get attention.) Examples:
 
-     - effort-jiraComplexity
-     - priority-jiraPriority
-     - type-jiraIssueType IE: story, maintenance, bug, research, hotfix
+   - effort-jiraComplexity
+   - priority-jiraPriority
+   - type-jiraIssueType IE: story, maintenance, bug, research, hotfix
 
-3. Auto-link for JIRA
+5. Auto-link for JIRA
 
 ## Actions
 
