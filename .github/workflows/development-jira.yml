@@ -81,13 +81,16 @@ jobs:
           fi
       - name: Comment Issue - Approved
         uses: atlassian/gajira-comment@master
-        if: github.event.review.state == 'approved' ||
-        github.event.check_run == 'completed'
+        if: >
+          github.event.review.state == 'approved' ||
+          github.event.check_run == 'completed'
         with:
-          issue: ${{ steps.issue_key_pr_title.outputs.issue ||
-          steps.issue_key_branch_name.outputs.issue }}
-          comment: "${{ github.event.pusher.name }} has approved the pull
-           request. This issue is ready to be merged and deployed to staging"
+          issue: >
+            ${{ steps.issue_key_pr_title.outputs.issue ||
+            steps.issue_key_branch_name.outputs.issue }}
+          comment: >
+            ${{ github.event.pusher.name }} has approved the pull
+            request. This issue is ready to be merged and deployed to staging
 
       - name: Transition Issue Backwards - Change Requested
         uses: atlassian/gajira-transition@master
