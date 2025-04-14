@@ -1,41 +1,70 @@
-name-template: '$RESOLVED_VERSION'
-tag-template: '$RESOLVED_VERSION'
+name-template: "$RESOLVED_VERSION 🌈"
+tag-template: "$RESOLVED_VERSION"
 categories:
-  - title: '🚅 Emergency Hot-fixes'
-    label: 'hotfix'
-  - title: '🚀 Stories'
-    label: 'story'
-  - title: '🐛 Bug Fixes'
-    label: 'bug'
-  - title: '🧪 Research'
-    label: 'research'
-  - title: '🧰 Maintenance'
+  - title: "🚅 Emergency Hot-fixes"
+    label: "hotfix"
+  - title: "🚀 User Stories"
+    label: "story"
+  - title: "🐛 Bug Fixes"
+    label: "bug"
+  - title: "🧪 Research Spikes"
+    label: "research"
+  - title: "🧰 Maintenance and Choires"
     labels:
-      - 'maintenance'
-  - title: '😎 Style'
-    label: 'style'
-  - title: '📕 Documentation'
-    label: 'documentation'
-change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
-change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
+      - "maintenance"
+  - title: "😎 Style"
+    label: "style"
+  - title: "📕 Documentation"
+    label: "documentation"
+change-template: "- $TITLE @$AUTHOR (#$NUMBER)"
+change-title-escapes: '\<*_&'
 version-resolver:
   major:
     labels:
-      - 'major'
+      - "major"
   minor:
     labels:
-      - 'minor'
-      - 'story'
-      - 'maintenance'
-      - 'research'
+      - "minor"
+      - "story"
+      - "maintenance"
+      - "research"
   patch:
     labels:
-      - 'patch'
-      - 'hotfix'
-      - 'bug'
-      - 'documentation'
-      - 'style'
-      - 'chore'
+      - "patch"
+      - "hotfix"
+      - "bug"
+      - "documentation"
+      - "style"
+      - "chore"
   default: patch
+autolabeler:
+  - label: "story"
+    branch:
+      - '/^story\//'
+      - '/^user-story\//'
+      - '/^improvement\//'
+      - '/^enhancement\//'
+      - '/^feature\//'
+      - '/^feat\//'
+  - label: "bug"
+    branch:
+      - "/^bug$/" # Exact match for 'bug' branch
+      - '/^fix\//'
+      - '/^bugfix\//'
+  - label: "maintenance"
+    branch:
+      - '/^maintenance\//'
+      - '/^refactor\//'
+      - '/^chore\//'
+  - label: "research"
+    branch:
+      - '/^research\//'
+  - label: "build" # Note: This label doesn't have a category yet
+    branch:
+      - '/^build\//'
+      - '/^release\//'
+  - label: "hotfix"
+    branch:
+      - '/^hotfix\//'
 template: |
   $CHANGES
