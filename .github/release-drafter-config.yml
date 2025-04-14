@@ -18,6 +18,35 @@ categories:
     label: "documentation"
 change-template: "- $TITLE @$AUTHOR (#$NUMBER)"
 change-title-escapes: '\<*_&'
+autolabeler:
+  - label: "story"
+    branch:
+      - '/^story\/.+/'
+      - '/^user-story\/.+/'
+      - '/^improvement\/.+/'
+      - '/^enhancement\/.+/'
+      - '/^feature\/.+/'
+      - '/^feat\/.+/'
+  - label: "bug"
+    branch:
+      - '/^bug\/.+/'
+      - '/^fix\/.+/'
+      - '/^bugfix\/.+/'
+  - label: "maintenance"
+    branch:
+      - '/^maintenance\/.+/'
+      - '/^refactor\/.+/'
+      - '/^chore\/.+/'
+  - label: "research"
+    branch:
+      - '/^research\/.+/'
+  - label: "build" # Note: This label doesn't have a category yet
+    branch:
+      - '/^build\/.+/'
+      - '/^release\/.+/'
+  - label: "hotfix"
+    branch:
+      - '/^hotfix\/.+/'
 version-resolver:
   major:
     labels:
@@ -37,34 +66,5 @@ version-resolver:
       - "style"
       - "chore"
   default: patch
-autolabeler:
-  - label: "story"
-    branch:
-      - '/^story\//'
-      - '/^user-story\//'
-      - '/^improvement\//'
-      - '/^enhancement\//'
-      - '/^feature\//'
-      - '/^feat\//'
-  - label: "bug"
-    branch:
-      - "/^bug$/" # Exact match for 'bug' branch
-      - '/^fix\//'
-      - '/^bugfix\//'
-  - label: "maintenance"
-    branch:
-      - '/^maintenance\//'
-      - '/^refactor\//'
-      - '/^chore\//'
-  - label: "research"
-    branch:
-      - '/^research\//'
-  - label: "build" # Note: This label doesn't have a category yet
-    branch:
-      - '/^build\//'
-      - '/^release\//'
-  - label: "hotfix"
-    branch:
-      - '/^hotfix\//'
 template: |
   $CHANGES
