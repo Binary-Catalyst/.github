@@ -6,5 +6,4 @@ _A summary of the changes_
 
 _relevant links_
 
-- Jira Issue: EMBEDSERV-<num>
-- Jira Issue: GAMES-<num>
+- Jira Issue: WR-<num>
