@@ -25,8 +25,8 @@ jobs:
       - uses: reitermarkus/automerge@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          merge-method: merge
+          merge-method: squash
           do-not-merge-labels: never-merge
-          # required-labels: automerge
+          required-labels: auto-pr
           pull-request: ${{ github.event.inputs.pull-request }}
           dry-run: false

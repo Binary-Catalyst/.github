@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - production
+      - staging
 jobs:
   create_release:
     runs-on: ubuntu-latest
@@ -14,6 +15,6 @@ jobs:
         uses: release-drafter/release-drafter@v5
         with:
           config-name: release-drafter-config.yml
-          publish: false
+          publish: ${{ github.ref_name == 'production' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
