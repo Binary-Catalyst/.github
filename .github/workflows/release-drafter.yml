@@ -33,6 +33,7 @@ jobs:
         with:
           config-name: release-drafter-config.yml
           prerelease: true
+          draft: false
           environment: staging
           commitish: ${{ github.ref_name }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
