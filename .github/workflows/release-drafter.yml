@@ -11,12 +11,13 @@ on:
   # pull_request event is required only for autolabeler
   pull_request:
     # Only following types are handled by the action, but one can default to all as well
-    types: [opened, edited, reopened, synchronize]
+    types: [opened, reopened, synchronize]
 
 # Setting defaults for security purposes
 permissions:
   contents: write
   pull-requests: write
+  issues: write
 
 jobs:
   ui-automated-prerelease:
@@ -33,10 +34,13 @@ jobs:
         with:
           config-name: release-drafter-config.yml
           prerelease: true
-          environment: staging
+          # draft: true
+          publish: true
           commitish: ${{ github.ref_name }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           prerelease-identifier: 'rc'
+          disable-autolabeler: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   ui-automated-release:
     if: ${{ github.actor != 'dependabot[bot]' && github.ref == 'refs/heads/production' }}
@@ -51,6 +55,6 @@ jobs:
         with:
           config-name: release-drafter-config.yml
           publish: true
-          environment: production
           commitish: ${{ github.ref_name }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
