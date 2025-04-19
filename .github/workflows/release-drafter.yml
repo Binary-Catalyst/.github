@@ -37,6 +37,7 @@ jobs:
           commitish: ${{ github.ref_name }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           prerelease-identifier: 'rc'
+          disable-autolabeler: false
 
   ui-automated-release:
     if: ${{ github.actor != 'dependabot[bot]' && github.ref == 'refs/heads/production' }}
@@ -54,3 +55,4 @@ jobs:
           environment: production
           commitish: ${{ github.ref_name }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          disable-autolabeler: false
