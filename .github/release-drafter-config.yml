@@ -27,7 +27,20 @@ autolabeler:
       - '/^enhancement\/.+/'
       - '/^feature\/.+/'
       - '/^feat\/.+/'
+  - label: "major"
+    branch:
+      - '/^story\/.+/'
+      - '/^user-story\/.+/'
+      - '/^improvement\/.+/'
+      - '/^enhancement\/.+/'
+      - '/^feature\/.+/'
+      - '/^feat\/.+/'
   - label: "bug"
+    branch:
+      - '/^bug\/.+/'
+      - '/^fix\/.+/'
+      - '/^bugfix\/.+/'
+  - label: "patch"
     branch:
       - '/^bug\/.+/'
       - '/^fix\/.+/'
@@ -37,16 +50,30 @@ autolabeler:
       - '/^maintenance\/.+/'
       - '/^refactor\/.+/'
       - '/^chore\/.+/'
+  - label: "minor"
+    branch:
+      - '/^maintenance\/.+/'
+      - '/^refactor\/.+/'
+      - '/^chore\/.+/'
   - label: "research"
     branch:
       - '/^research\/.+/'
-  - label: "build" # Note: This label doesn't have a category yet
+  - label: "minor"
+    branch:
+      - '/^research\/.+/'
+  - label: "build"
     branch:
       - '/^build\/.+/'
       - '/^release\/.+/'
   - label: "hotfix"
     branch:
       - '/^hotfix\/.+/'
+  - label: "patch"
+    branch:
+      - '/^hotfix\/.+/'
+  - label: "major"
+    branch:
+      - '/^breaking\/.+/'
 version-resolver:
   major:
     labels:

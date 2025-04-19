@@ -17,6 +17,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  issues: write
 
 jobs:
   ui-automated-prerelease:
@@ -33,7 +34,8 @@ jobs:
         with:
           config-name: release-drafter-config.yml
           prerelease: true
-          draft: true
+          # draft: true
+          publish: true
           commitish: ${{ github.ref_name }}
           prerelease-identifier: 'rc'
           disable-autolabeler: false
