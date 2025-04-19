@@ -1,32 +1,56 @@
-name: Production - 3. Version Releaser
+name: Release Drafter
+
 on:
   push:
+    # branches to consider in the event; optional, defaults to all
     branches:
+      - main
       - production
       - staging
-      - main
-    paths-ignore:
-      - 'docs/**'
-      - '**.md'
+
+  # pull_request event is required only for autolabeler
   pull_request:
-    types: [opened, reopened, synchronize, labeled]
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Release version (e.g., 0.6.0)'
-        required: true
-        default: '91.0.0'
+    # Only following types are handled by the action, but one can default to all as well
+    types: [opened, reopened, synchronize]
+
+# Setting defaults for security purposes
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
-  create_release:
+  ui-automated-prerelease:
+    if: ${{ github.actor != 'dependabot[bot]' && github.ref != 'refs/heads/production' }}
+    name: UI Release Drafter and Labeler (Staging)
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: release-drafter/release-drafter@v6
+        with:
+          config-name: release-drafter-config.yml
+          prerelease: true
+          environment: staging
+          commitish: ${{ github.ref_name }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          prerelease-identifier: 'rc'
+
+  ui-automated-release:
+    if: ${{ github.actor != 'dependabot[bot]' && github.ref == 'refs/heads/production' }}
+    name: UI Release Drafter and Labeler (Production)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@master
-
-      - name: Create and Publish Release
-        uses: release-drafter/release-drafter@v5
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: release-drafter/release-drafter@v6
         with:
           config-name: release-drafter-config.yml
-          publish: ${{ github.ref_name == 'production' }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          publish: true
+          environment: production
+          commitish: ${{ github.ref_name }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
